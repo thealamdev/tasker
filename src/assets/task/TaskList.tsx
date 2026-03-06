@@ -1,18 +1,7 @@
 import { StarIcon, StarOff } from "lucide-react";
-import { useState } from "react"
 
-export default function TaskList() {
-    const defaultTask = {
-        id: crypto.randomUUID(),
-        title: 'Task one',
-        description: 'Task one description',
-        tags: ['web', 'js', 'pythobn'],
-        priority: 'high',
-        isFav: true
-    }
+export default function TaskList({tasks}:{tasks:any}) {
 
-    const [tasks, setTasks] = useState([defaultTask]);
-    
     return (
         <div className="overflow-auto">
             <table className="table-fixed overflow-auto xl:w-full">
@@ -28,7 +17,7 @@ export default function TaskList() {
                 </thead>
                 <tbody>
                     {
-                        tasks.map(task => (
+                        tasks.map((task:any) => (
                             <tr
                                 key={task.id}
                                 className="border-b border-[#2E3443] [&>td]:align-baseline [&>td]:px-4 [&>td]:py-2">
@@ -43,7 +32,7 @@ export default function TaskList() {
                                 </td>
                                 <td>
                                     <ul className="flex justify-center gap-1.5 flex-wrap">
-                                        {task.tags.map(tag => (
+                                        {task.tags.map((tag:any) => (
                                             <li key={tag}>
                                                 <span
                                                     className="inline-block h-5 whitespace-nowrap rounded-[45px] bg-[#00D991A1] px-2.5 text-sm capitalize text-[#F4F5F6]">
