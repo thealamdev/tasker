@@ -1,7 +1,13 @@
 import { StarIcon, StarOff } from "lucide-react";
 
-export default function TaskList({ tasks, onEdit, onDelete }: { tasks: any, onEdit: (task: any) => void, onDelete: (taskId: string) => void }) {
-
+export default function TaskList(
+    { tasks, onAddFav, onEdit, onDelete }: {
+        tasks: any,
+        onAddFav: (taskId: string) => void,
+        onEdit: (task: any) => void,
+        onDelete: (taskId: string) => void
+    }
+) {
     return (
         <div className="overflow-auto">
             <table className="table-fixed overflow-auto xl:w-full">
@@ -22,7 +28,13 @@ export default function TaskList({ tasks, onEdit, onDelete }: { tasks: any, onEd
                                 key={task.id}
                                 className="border-b border-[#2E3443] [&>td]:align-baseline [&>td]:px-4 [&>td]:py-2">
                                 <td>
-                                    {task.isFav ? <StarIcon /> : <StarOff />}
+                                    <button
+                                        type="button"
+                                        onClick={() => onAddFav(task.id)}
+                                        className="border-none bg-transparent"
+                                    >
+                                        {task.isFav ? <StarIcon className="text-amber-300" /> : <StarIcon />}
+                                    </button>
                                 </td>
                                 <td>{task.title}</td>
                                 <td>

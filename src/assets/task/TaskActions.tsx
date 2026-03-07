@@ -1,8 +1,10 @@
 
 interface PageProps {
+    onDeleteAll: () => void;
     onSmash: () => void
 }
 export default function TaskActions({
+    onDeleteAll,
     onSmash
 }: PageProps) {
     return (
@@ -13,7 +15,10 @@ export default function TaskActions({
                     type="button"
                     onClick={onSmash}
                     className="rounded-md bg-blue-500 px-3.5 py-2.5 text-sm font-semibold">Add Task</button>
-                <button className="rounded-md bg-red-500 px-3.5 py-2.5 text-sm font-semibold">Delete All</button>
+                <button
+                    type="button"
+                    onClick={onDeleteAll}
+                    className="rounded-md bg-red-500 px-3.5 py-2.5 text-sm font-semibold">Delete All</button>
             </div>
         </div>
     )

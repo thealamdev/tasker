@@ -11,7 +11,7 @@ export default function TaskBoard() {
         description: 'Task one description',
         tags: ['web', 'js', 'pythobn'],
         priority: 'high',
-        isFav: true
+        isFav: false
     }
 
     const [tasks, setTasks] = useState([defaultTask]);
@@ -37,6 +37,7 @@ export default function TaskBoard() {
                             ...task
                         }
                     }
+                    return { ...t }
                 })
             ))
         } else {
@@ -54,6 +55,31 @@ export default function TaskBoard() {
         setEditableTask(task)
     }
 
+    const handleDeleteAll = () => {
+        setTasks([]);
+    }
+
+    const handleFavourite = (taskId: string) => {
+        setTasks((prev: any) => (
+            prev.map((item: any) => {
+                if (item.id === taskId) {
+                    return { ...item, isFav: !item.isFav }
+                }
+                return {
+                    ...item
+                }
+            })
+        ))
+    }
+
+    const handleSearch = (search: string) => {
+        setTasks((prev: any) => (
+            prev.filter((item: any) => (
+                item.title.toLowerCase().includes(search.toLowerCase())
+            ))
+        ))
+    }
+
     return (
         <section className="mb-20" id="tasks">
             {isModalOpen &&
@@ -62,12 +88,16 @@ export default function TaskBoard() {
                     onSave={handleTaskEditSave}
                 />}
             <div className="container">
-                <TaskSearch />
+                <TaskSearch onSearch={handleSearch} />
                 <div className="rounded-xl border border-[rgba(206,206,206,0.12)] bg-[#1D212B] px-6 py-8 md:px-9 md:py-16">
-                    <TaskActions onSmash={handleAddTask} />
+                    <TaskActions
+                        onDeleteAll={handleDeleteAll}
+                        onSmash={handleAddTask}
+                    />
                     <TaskList
                         onEdit={handleTaskEdit}
                         onDelete={handleDelete}
+                        onAddFav={handleFavourite}
                         tasks={tasks}
                     />
                 </div>
