@@ -16,26 +16,60 @@ export default function TaskBoard() {
 
     const [tasks, setTasks] = useState([defaultTask]);
     const [isModalOpen, setModalOpen] = useState<boolean>(false);
+    const [editableTask, setEditableTask] = useState(null);
 
     const handleAddTask = () => {
         setModalOpen(true)
     }
 
-    const handleSaveTask = (task: any) => {
+    const handleDelete = (taskId: string) => {
         setTasks((prev: any) => (
-            [...prev, task]
+            prev.filter((task: any) => task.id !== taskId)
         ))
+    }
+
+    const handleTaskEditSave = (task: any, editable: boolean) => {
+        if (editable) {
+            setTasks((prev: any) => (
+                prev.map((t: any) => {
+                    if (t.id === task.id) {
+                        return {
+                            ...task
+                        }
+                    }
+                })
+            ))
+        } else {
+            setTasks((prev: any) => (
+                [...prev, task]
+            ))
+        }
+
         setModalOpen(false)
+        setEditableTask(null)
+    }
+
+    const handleTaskEdit = (task: any) => {
+        setModalOpen(true)
+        setEditableTask(task)
     }
 
     return (
         <section className="mb-20" id="tasks">
-            {isModalOpen && <AddTaskModal onSave={handleSaveTask} />}
+            {isModalOpen &&
+                <AddTaskModal
+                    editableTask={editableTask}
+                    onSave={handleTaskEditSave}
+                />}
             <div className="container">
                 <TaskSearch />
                 <div className="rounded-xl border border-[rgba(206,206,206,0.12)] bg-[#1D212B] px-6 py-8 md:px-9 md:py-16">
                     <TaskActions onSmash={handleAddTask} />
-                    <TaskList tasks={tasks} />
+                    <TaskList
+                        onEdit={handleTaskEdit}
+                        onDelete={handleDelete}
+                        tasks={tasks}
+                    />
                 </div>
             </div>
         </section>

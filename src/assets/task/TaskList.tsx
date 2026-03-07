@@ -1,6 +1,6 @@
 import { StarIcon, StarOff } from "lucide-react";
 
-export default function TaskList({tasks}:{tasks:any}) {
+export default function TaskList({ tasks, onEdit, onDelete }: { tasks: any, onEdit: (task: any) => void, onDelete: (taskId: string) => void }) {
 
     return (
         <div className="overflow-auto">
@@ -17,7 +17,7 @@ export default function TaskList({tasks}:{tasks:any}) {
                 </thead>
                 <tbody>
                     {
-                        tasks.map((task:any) => (
+                        tasks.map((task: any) => (
                             <tr
                                 key={task.id}
                                 className="border-b border-[#2E3443] [&>td]:align-baseline [&>td]:px-4 [&>td]:py-2">
@@ -32,7 +32,7 @@ export default function TaskList({tasks}:{tasks:any}) {
                                 </td>
                                 <td>
                                     <ul className="flex justify-center gap-1.5 flex-wrap">
-                                        {task.tags.map((tag:any) => (
+                                        {task.tags.map((tag: any) => (
                                             <li key={tag}>
                                                 <span
                                                     className="inline-block h-5 whitespace-nowrap rounded-[45px] bg-[#00D991A1] px-2.5 text-sm capitalize text-[#F4F5F6]">
@@ -46,8 +46,20 @@ export default function TaskList({tasks}:{tasks:any}) {
                                 <td className="text-center">{task.priority}</td>
                                 <td>
                                     <div className="flex items-center justify-center space-x-3">
-                                        <button className="text-red-500">Delete</button>
-                                        <button className="text-blue-500">Edit</button>
+                                        <button
+                                            type="button"
+                                            onClick={() => onDelete(task.id)}
+                                            className="text-red-500"
+                                        >
+                                            Delete
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onClick={() => onEdit(task)}
+                                            className="text-blue-500"
+                                        >
+                                            Edit
+                                        </button>
                                     </div>
                                 </td>
                             </tr>

@@ -1,7 +1,17 @@
 import { useState, type ChangeEvent } from "react"
 
-export default function AddTaskModal({ onSave }: { onSave: (task: any) => void }) {
-    const [task, setTask] = useState({
+interface taskIntereface {
+    id: string;
+    title: string;
+    description: string;
+    tags: string[];
+    priority: string;
+    isFav: boolean;
+}
+
+export default function AddTaskModal({ editableTask, onSave }: { editableTask: any, onSave: (task: any, editableTask: boolean) => void }) {
+    const isUpdate = Boolean(editableTask);
+    const [task, setTask] = useState<taskIntereface>(editableTask || {
         id: crypto.randomUUID(),
         title: '',
         description: '',
@@ -12,13 +22,12 @@ export default function AddTaskModal({ onSave }: { onSave: (task: any) => void }
 
     const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         let { name, value } = event.target;
-        
-        if (name === 'tags') {
-            value = value.split(",");
-        }
 
         setTask((prev: any) => (
-            { ...prev, [name]: value }
+            {
+                ...prev,
+                [name]: name === 'tags' ? value.split(",") : value
+            }
         ))
     }
 
@@ -65,7 +74,7 @@ export default function AddTaskModal({ onSave }: { onSave: (task: any) => void }
                                 type="text"
                                 name="tags"
                                 onChange={handleChange}
-                                value={task.tags}
+                                value={task.tags.join(",")}
                                 required
                             />
                         </div>
@@ -91,10 +100,10 @@ export default function AddTaskModal({ onSave }: { onSave: (task: any) => void }
                 <div className="mt-16 flex justify-center lg:mt-20">
                     <button
                         type="button"
-                        onClick={() => onSave(task)}
+                        onClick={() => onSave(task, isUpdate)}
                         className="rounded bg-blue-600 px-4 py-2 text-white transition-all hover:opacity-80"
                     >
-                        Save
+                        {editableTask ? 'Update' : 'Save'}
                     </button>
                 </div>
             </form>
