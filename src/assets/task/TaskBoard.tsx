@@ -3,6 +3,7 @@ import TaskSearch from "./TaskSearch"
 import TaskActions from "./TaskActions"
 import { useState } from "react";
 import AddTaskModal from "./AddTaskModal";
+import OldSearch from "./OldSearch";
 
 export default function TaskBoard() {
     const defaultTask = {
@@ -89,6 +90,9 @@ export default function TaskBoard() {
                 />}
             <div className="container">
                 <TaskSearch onSearch={handleSearch} />
+                {/* <OldSearch
+                    setTasks={setTasks}
+                /> */}
                 <div className="rounded-xl border border-[rgba(206,206,206,0.12)] bg-[#1D212B] px-6 py-8 md:px-9 md:py-16">
                     <TaskActions
                         onDeleteAll={handleDeleteAll}
